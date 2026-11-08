@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Loja de itens impressos em 3D. Descubra peças criativas e personalizadas.">
+  <title>H3dy_lab — Loja de impressão 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="images/branding/logo.jpg">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a href="#topo" class="brand" aria-label="H3dy_lab, início">
+      <img class="brand-mark" src="images/branding/logo-header.png" alt="H3dy_lab, impressões 3D" />
+    </a>
+
+    <nav class="barra-nav" id="barraNav" aria-label="Navegação principal">
+      <a href="#Catalogo">Catálogos</a>
+      <a href="#contato">Contato</a>
+      <a href="#sobre">Sobre</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="botao-1" href="https://wa.me/5547984776455" target="_blank" rel="noopener">
+        Pedir no WhatsApp
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="container hero" id="topo">
+  <div>
+    <span class="eyebrow">✦ Impressão 3D • ideias reais</span>
+    <h1>Ideias que ganham <span class="gradient">forma.</span></h1>
+    <p>Peças criativas, decoração e acessórios feitos com impressão 3D. Encontre algo diferente ou transforme sua ideia em realidade.</p>
+    <div class="hero-actions">
+      <a class="primary-button" href="paginas/personalizados.html">Fazer meu pedido ↗</a>
+      <a class="secondary-button" href="#Catalogo">Ver catálogos</a>
+    </div>
+    <div class="stats">
+      <div><b data-n="6">0</b><span>catálogos</span></div>
+      <div><b data-n="100" data-s="%">0</b><span>feito sob medida</span></div>
+      <div><b>∞</b><span>cores de filamento</span></div>
+    </div>
+  </div>
+  <div class="hero-art" aria-label="Cubo tridimensional animado">
+    <div class="orbit"><i></i></div>
+    <div class="cube-scene"><div class="cube">
+      <div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div>
+      <div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div>
+    </div></div>
+    <span class="art-label">DESIGN • TECNOLOGIA • CRIATIVIDADE</span>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true"><div>
+  <span>CHAVEIROS ✦ SENSORIAIS ✦ DECORAÇÕES ✦ SETUP ✦ MINIATURAS ✦ PERSONALIZADOS ✦ </span>
+  <span>CHAVEIROS ✦ SENSORIAIS ✦ DECORAÇÕES ✦ SETUP ✦ MINIATURAS ✦ PERSONALIZADOS ✦ </span>
+</div></div>
+
+<section class="container catalogo" id="Catalogo">
+  <span class="eyebrow">✦ Conheça nossos catálogos</span>
+  <h2>Escolha seu <span class="gradient">universo 3D</span></h2>
+  <div class="catalogo-grid">
+    <a class="catalogo-botao" href="paginas/sensorias.html"><em>🌀</em>Sensoriais</a>
+    <a class="catalogo-botao" href="paginas/decoracoes.html"><em>🪴</em>Decorações</a>
+    <a class="catalogo-botao" href="paginas/setup.html"><em>🎮</em>Setup</a>
+    <a class="catalogo-botao" href="paginas/personalizados.html"><em>✨</em>Personalizados</a>
+    <a class="catalogo-botao" href="paginas/miniaturas.html"><em>🐉</em>Miniaturas</a>
+    <a class="catalogo-botao" href="paginas/chaveiros.html"><em>🔑</em>Chaveiros</a>
+  </div>
+</section>
+
+<section class="container sec sobre" id="sobre">
+  <div>
+    <h2>Camada por camada, <span class="gradient">sua ideia existe.</span></h2>
+    <p>A H3dy_lab transforma modelos digitais em objetos de verdade: presentes, decoração e utilidades. Tem uma ideia? A gente desenha, imprime e entrega.</p>
+  </div>
+  <div class="cards3">
+    <div><b>🎨</b><span>Cores à sua escolha</span></div>
+    <div><b>🛠️</b><span>Peças sob medida</span></div>
+    <div><b>🎁</b><span>Perfeito para presentear</span></div>
+    <div><b>⚡</b><span>Pedido direto no WhatsApp</span></div>
+  </div>
+</section>
+
+<section class="container sec" id="contato">
+  <div class="contato-grid">
+    <div class="cta">
+      <h2>Bora imprimir<br>sua ideia?</h2>
+      <p>Chame no WhatsApp, conte o que você imaginou e receba um orçamento.</p>
+      <a class="primary-button" href="https://wa.me/5547984776455" target="_blank" rel="noopener">Pedir no WhatsApp ↗</a>
+    </div>
+    <form class="mail-form" id="mailForm" data-email="contato@h3dylab.com.br">
+      <h3>Prefere e-mail?</h3>
+      <label>Seu nome<input name="nome" required autocomplete="name"></label>
+      <label>Seu e-mail<input name="email" type="email" required autocomplete="email"></label>
+      <label>Sua ideia<textarea name="msg" rows="4" required placeholder="Conte o que você quer imprimir, tamanho e cores"></textarea></label>
+      <button class="primary-button" type="submit">Enviar e-mail</button>
+      <small>Ou escreva direto para <a href="mailto:contato@h3dylab.com.br">contato@h3dylab.com.br</a></small>
+    </form>
+  </div>
+</section>
+
+</main>
+<script src="js/script.js"></script>
+</body>
+</html>
