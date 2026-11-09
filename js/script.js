@@ -7,7 +7,7 @@ const bg=d.querySelector('.burger'),nv=d.getElementById('barraNav');bg&&bg.addEv
 /* titulo palavra por palavra */
 q('[data-split]').forEach(h=>{let i=0;const w=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=d.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(t=>{if(!t.trim())return f.append(t);const s=d.createElement('span');s.className='w';s.innerHTML='<i style="animation-delay:'+(.15+i++*.09)+'s">'+t+'</i>';f.append(s)});c.replaceWith(f)}else w(c)})};w(h)});
 /* reveal */
-q('.produto-card,.tile,.step,.cards3>div,.cta,.mail-form,.sh,.sobre>div').forEach(e=>e.classList.add('rv'));
+q('.produto-card,.tile,.step,.cards3>div,.cta,.mail-form,.sh,.sobre>div,.mat').forEach(e=>e.classList.add('rv'));
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.1});
 q('.rv').forEach((e,i)=>{e.style.transitionDelay=(i%3)*80+'ms';io.observe(e)});
 /* contadores */
@@ -23,24 +23,30 @@ const lb=d.createElement('div');lb.className='lb';lb.innerHTML='<img alt="">';d.
 q('.pimg').forEach(p=>p.addEventListener('click',()=>{const i=p.querySelector('img');lb.firstChild.src=i.src;lb.firstChild.alt=i.alt;lb.classList.add('on')}));lb.addEventListener('click',()=>lb.classList.remove('on'));addEventListener('keydown',e=>e.key==='Escape'&&lb.classList.remove('on'));
 /* e-mail */
 const mf=d.getElementById('mailForm');mf&&mf.addEventListener('submit',e=>{e.preventDefault();const f=new FormData(mf);location.href='mailto:'+mf.dataset.email+'?subject='+encodeURIComponent('Pedido H3dy_lab — '+f.get('nome'))+'&body='+encodeURIComponent(f.get('msg')+'\n\nContato: '+f.get('nome')+' <'+f.get('email')+'>')});
-/* ===== CENA 3D: peça sendo impressa camada por camada ===== */
-const box=d.getElementById('scene');if(!box||!window.THREE||RM)return;
-let R;try{R=new THREE.WebGLRenderer({antialias:true,alpha:true})}catch(e){return}
-const T=THREE,sc=new T.Scene(),cam=new T.PerspectiveCamera(38,1,.1,50);cam.position.set(0,.5,6.2);
-R.setPixelRatio(Math.min(devicePixelRatio,2));R.localClippingEnabled=true;box.append(R.domElement);d.querySelector('.fb')?.remove();
-const pl=new T.Plane(new T.Vector3(0,-1,0),0),g=new T.TorusKnotGeometry(1.05,.34,240,36,2,3);
-const m=new T.MeshStandardMaterial({color:0x723bfa,metalness:.35,roughness:.32,clippingPlanes:[pl],side:T.DoubleSide});
-m.onBeforeCompile=s=>{s.vertexShader=s.vertexShader.replace('void main(){','varying float vY;\nvoid main(){').replace('#include <begin_vertex>','#include <begin_vertex>\nvY=(modelMatrix*vec4(transformed,1.)).y;');s.fragmentShader=s.fragmentShader.replace('void main(){','varying float vY;\nvoid main(){').replace('#include <dithering_fragment>','gl_FragColor.rgb*=.72+.28*step(.5,fract(vY*34.));\n#include <dithering_fragment>')};
-const solid=new T.Mesh(g,m),wire=new T.Mesh(g,new T.MeshBasicMaterial({color:0x9b72ff,wireframe:true,transparent:true,opacity:.14}));
-const ring=new T.Mesh(new T.TorusGeometry(1.75,.012,8,100),new T.MeshBasicMaterial({color:0xb9f500}));ring.rotation.x=Math.PI/2;
-const glow=new T.Mesh(new T.CircleGeometry(1.75,64),new T.MeshBasicMaterial({color:0xb9f500,transparent:true,opacity:.07,side:T.DoubleSide}));glow.rotation.x=Math.PI/2;
-const grp=new T.Group();grp.add(solid,wire);sc.add(grp,ring,glow);
-sc.add(new T.AmbientLight(0xffffff,.55));const k=new T.DirectionalLight(0xffffff,1.6);k.position.set(3,4,5);const r2=new T.PointLight(0xb9f500,2.4,12);r2.position.set(-3.5,1,-2);const r3=new T.PointLight(0x9b72ff,3,12);r3.position.set(3,-2,-3);sc.add(k,r2,r3);
-const fit=()=>{const w=box.clientWidth,h=box.clientHeight;R.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix()};fit();addEventListener('resize',fit);
-let mx=0,my=0,vis=true;addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(box);
-const lay=d.getElementById('lay'),pb=d.querySelector('.bar i'),clk=new T.Clock(),TOP=1.75;
-(function loop(){requestAnimationFrame(loop);if(!vis)return;const t=clk.getElapsedTime(),c=(t%9)/9,p=c<.8?c/.8:1,h=-TOP+p*TOP*2;
-pl.constant=h;ring.position.y=glow.position.y=h;ring.visible=glow.visible=c<.8;grp.rotation.y=t*.35+scrollY*.003;grp.position.y=Math.sin(t*.8)*.05;
-cam.position.x+=(mx*1.4-cam.position.x)*.05;cam.position.y+=(.5-my*1.2-cam.position.y)*.05;cam.lookAt(0,0,0);
-if(lay){lay.textContent=String(Math.round(p*300)).padStart(3,'0')+' / 300'}if(pb)pb.style.width=p*100+'%';R.render(sc,cam)})();
+/* ===== CENAS 3D: pecas sendo impressas camada por camada ===== */
+if(!window.THREE||RM)return;
+const T=THREE,SC=[],cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),P=(f,n=48,h=2)=>Array.from({length:n+1},(_,i)=>{const t=i/n;return new T.Vector2(Math.max(.03,f(t)),(t-.5)*h)});
+const vase=()=>new T.LatheGeometry(P(t=>.55+.5*Math.sin(t*Math.PI*.9+.3)*(1-t*.25)+.12*Math.sin(t*18)),72);
+const tower=()=>new T.LatheGeometry(P(t=>.5+.38*Math.sin(t*Math.PI*2.4)*(1-t*.35)+.06*Math.sin(t*46),90,3),96);
+const gear=()=>{const s=new T.Shape(),N=12;for(let i=0;i<N*4;i++){const a=i/(N*4)*6.2832,k=i%4,r=(k==1||k==2)?1.25:1,x=Math.cos(a)*r,y=Math.sin(a)*r;i?s.lineTo(x,y):s.moveTo(x,y)}const h=new T.Path();h.absarc(0,0,.38,0,6.2832,true);s.holes.push(h);const g=new T.ExtrudeGeometry(s,{depth:1.5,bevelEnabled:false});g.rotateX(-Math.PI/2);return g};
+const mk=(box,geo,o={})=>{if(!box)return;let R;try{R=new T.WebGLRenderer({antialias:true,alpha:true})}catch(e){return}
+box.append(R.domElement);box.parentElement.querySelector('.fb')?.remove();geo.center();geo.computeBoundingBox();const z=new T.Vector3();geo.boundingBox.getSize(z);
+const S=(o.size||2.7)/Math.max(z.x,z.y,z.z),H=z.y*S/2,RR=Math.max(z.x,z.z)*S/2*1.2,sc=new T.Scene(),cam=new T.PerspectiveCamera(38,1,.1,50);cam.position.set(0,.5,o.z||6.2);
+R.setPixelRatio(Math.min(devicePixelRatio,2));R.localClippingEnabled=true;
+const pl=new T.Plane(new T.Vector3(0,-1,0),0),m=new T.MeshStandardMaterial({color:o.color||0x723bfa,metalness:.35,roughness:.32,flatShading:!!o.flat,clippingPlanes:[pl],side:T.DoubleSide});
+m.onBeforeCompile=s=>{s.vertexShader=s.vertexShader.replace(/void main\(\s*\)\s*\{/,'varying float vY;\nvoid main(){').replace('#include <begin_vertex>','#include <begin_vertex>\nvY=(modelMatrix*vec4(transformed,1.)).y;');s.fragmentShader=s.fragmentShader.replace(/void main\(\s*\)\s*\{/,'varying float vY;\nvoid main(){').replace('#include <dithering_fragment>','gl_FragColor.rgb*=.72+.28*step(.5,fract(vY*34.));\n#include <dithering_fragment>')};
+const wm=new T.MeshBasicMaterial({color:0x9b72ff,wireframe:true,transparent:true,opacity:.14}),grp=new T.Group();grp.add(new T.Mesh(geo,m),new T.Mesh(geo,wm));grp.scale.setScalar(S);
+const ring=new T.Mesh(new T.TorusGeometry(RR,.012,8,100),new T.MeshBasicMaterial({color:0xb9f500})),glow=new T.Mesh(new T.CircleGeometry(RR,64),new T.MeshBasicMaterial({color:0xb9f500,transparent:true,opacity:.07,side:T.DoubleSide}));ring.rotation.x=glow.rotation.x=Math.PI/2;
+sc.add(grp,ring,glow,new T.AmbientLight(0xffffff,.55));const k=new T.DirectionalLight(0xffffff,1.6);k.position.set(3,4,5);const a=new T.PointLight(0xb9f500,2.4,12);a.position.set(-3.5,1,-2);const b=new T.PointLight(o.rim||0x9b72ff,3,12);b.position.set(3,-2,-3);sc.add(k,a,b);
+const s={box,R,sc,cam,grp,pl,ring,glow,wm,H,o,vis:true,ph:o.ph||0};const fit=()=>{const w=box.clientWidth,h=box.clientHeight;R.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix()};fit();addEventListener('resize',fit);new IntersectionObserver(e=>s.vis=e[0].isIntersecting).observe(box);SC.push(s)};
+mk(d.getElementById('scene'),new T.TorusKnotGeometry(1.05,.34,240,36,2,3),{size:3.1,onP(f){const l=d.getElementById('lay'),p=d.querySelector('.hero-art .bar i');l&&(l.textContent=String(Math.round(f*300)).padStart(3,'0')+' / 300');p&&(p.style.width=f*100+'%')}});
+[['m1',vase(),0x723bfa,0x9b72ff,0],['m2',gear(),0xb9f500,0xb9f500,3],['m3',new T.IcosahedronGeometry(1.2,1),0xff5d8f,0xff5d8f,6]].forEach(([id,g,c,r,ph],i)=>mk(d.getElementById(id),g,{color:c,rim:r,ph,flat:i==2,size:2.5,z:6.4,cy:i==1?3.2:.5}));
+const sec=d.getElementById('tech'),ph=q('.phases li'),$=i=>d.getElementById(i);
+mk($('big'),tower(),{size:3.6,z:7,rim:0xb9f500,scroll:true,onP(f,p){const i=p<.15?0:p<.3?1:p<.85?2:3;ph.forEach((e,j)=>e.classList.toggle('on',j===i));$('sl').textContent=String(Math.round(f*480)).padStart(3,'0');$('sh').textContent=(f*96).toFixed(1);$('stm').textContent=String(Math.floor(f*222/60)).padStart(2,'0')+':'+String(Math.floor(f*222%60)).padStart(2,'0');$('sb').style.width=p*100+'%'}});
+let mx=0,my=0;addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});const clk=new T.Clock();
+(function loop(){requestAnimationFrame(loop);const t=clk.getElapsedTime();SC.forEach(s=>{if(!s.vis)return;let f,p=0;
+if(s.o.scroll){const r=sec.getBoundingClientRect();p=cl(-r.top/(r.height-innerHeight));f=cl((p-.3)/.55);s.wm.opacity=.5-.36*f;s.grp.rotation.y=p*12.5+t*.1}
+else{const c=((t+s.ph)%9)/9;f=c<.8?c/.8:1;s.grp.rotation.y=t*.35+scrollY*.003+s.ph}
+const h=-s.H+f*s.H*2;s.pl.constant=f>=1?s.H+1:h;s.ring.position.y=s.glow.position.y=h;s.ring.visible=s.glow.visible=f>0&&f<1;s.grp.position.y=Math.sin(t*.8+s.ph)*.04;
+s.cam.position.x+=(mx*1.2-s.cam.position.x)*.05;s.cam.position.y+=((s.o.cy??.5)-my*1-s.cam.position.y)*.05;s.cam.lookAt(0,0,0);s.o.onP&&s.o.onP(f,p);s.R.render(s.sc,s.cam)})})();
 })();
